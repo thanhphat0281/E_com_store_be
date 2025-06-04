@@ -28,10 +28,26 @@ async function deleteProduct(id) {
     return;
 }
 
+async function getNewProducts() {
+    let newProducts = await Product.find({
+        isNewProduct: true,
+    });
+    return newProducts.map((x)=> x.toObject());
+}
+
+async function getFeaturedProducts() {
+    let featuredProducts = await Product.find({
+        isFeatured: true,
+    });
+    return featuredProducts.map((x)=> x.toObject());
+}
+
 module.exports = { 
     addProduct,
     updateProduct,
     deleteProduct,
     getProducts, 
-    getProductById
+    getProductById,
+    getNewProducts,
+    getFeaturedProducts
 }
