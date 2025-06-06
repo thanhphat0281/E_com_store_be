@@ -42,6 +42,21 @@ async function getFeaturedProducts() {
     return featuredProducts.map((x)=> x.toObject());
 }
 
+async function getProductForListing(searchTerm, categoryId, page, pageSize, sortBy, sortOrder) {
+    let queryFilter = {}
+    if(searchTerm) {
+        name:searchTerm
+    }
+    if(categoryId) {
+        categoryId:categoryId; 
+    }
+
+    const products = await Product.find(queryFilter).sort({
+        price: -1,
+    }).skip((page-1)*pageSize).limit(pageSize);
+    return products.map((x)=> x.toObject());
+}
+
 module.exports = { 
     addProduct,
     updateProduct,
