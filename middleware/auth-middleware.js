@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function veryfyToken(req, res, next) {
     const token = req.header("Authorization");
-    console.log(req.header);
+    console.log(token);
     if (!token) {
         return res.status(401).send({
             error: "Access denied",

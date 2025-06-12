@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const uri = "mongodb+srv://thanhphat1125:Thanhphat6181%40@cluster0.jbucew7.mongodb.net/ecom_store?retryWrites=true&w=majority";
 const app = express();
 
 const port = 3000;
@@ -25,16 +26,47 @@ app.get("/", (req, res) => {
     res.send("Server running");
 });
 
-async function connectDb() {
-    await mongoose.connect("mongodb://localhost:27017/", {
-        dbName: "store_db",
-    })
-    console.log("Db connected");
-}
 
-connectDb().catch((err) => {
-    console.log(err);
+
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+// const client = new MongoClient(uri, {
+//   serverApi: {
+//     version: ServerApiVersion.v1,
+//     strict: true,
+//     deprecationErrors: true,
+//   }
+// });
+
+// async function run() {
+//   try {
+//     // Connect the client to the server	(optional starting in v4.7)
+//     await client.connect();
+//     // Send a ping to confirm a successful connection
+//     await client.db("admin").command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await client.close();
+//   }
+// }
+// run().catch(console.dir);
+
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
+.then(() => {
+  console.log("✅ Connected to MongoDB Atlas");
+
+  app.listen(port, () => {
+    console.log("🚀 Server running on port", port);
+  });
+})
+.catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
+});
+
 app.listen(port, () => {
     console.log("Server running on port", port)
 })
